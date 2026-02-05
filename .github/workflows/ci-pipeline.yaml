@@ -1,0 +1,46 @@
+name: CI - Build and Push to ACR
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: # Allows you to manually trigger the pipeline for testing
+
+env:
+  ACR_NAME: "acrhospitalprod01" 
+  IMAGE_NAME: "hospital-app"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 1. Checkout the code from GitHub
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # 2. Log in to Azure
+    # This uses a secret we will configure shortly
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # 3. Log in to your Azure Container Registry (ACR) [cite: 41]
+    - name: Login to ACR
+      run: az acr login --name ${{ env.ACR_NAME }}
+
+    # 4. Create a Dynamic Tag
+    - name: Generate Tag
+      id: meta
+      run: |
+        echo "TAG=v1.0.${{ github.run_number }}" >> $GITHUB_ENV
+
+    # 5. Build and Push the Docker Image
+    - name: Build and Push Image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: |
+          ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+          ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
