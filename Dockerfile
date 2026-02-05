@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # 4. Install dependencies
-RUN npm install --production
+RUN apt install --production
 
 # 5. Copy the rest of the application code
 COPY . .
