@@ -1,0 +1,6 @@
+apiVersion: v2
+name: recruitment-app
+description: A Helm chart for the Hospital Recruitment Microservice
+type: application
+version: 0.1.0       # The version of the CHART
+appVersion: "1.0.0"  # The version of the APP inside it
