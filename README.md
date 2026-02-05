@@ -1,4 +1,4 @@
-# End-to-End Cloud-Native Hospital Recruitment Platform
+# End-to-End Cloud-Native Hospital App
 
 ## 1. Project Overview
 
@@ -78,7 +78,7 @@ The solution follows a layered cloud-native architecture:
 ### 🛑 Challenge 2: Availability Zone Constraints
 
 * **Issue:** The deployment failed with `AvailabilityZoneNotSupported` because the assigned region (`australiacentral`) does not support Availability Zones.
-* **Resolution:** Modified the Terraform `default_node_pool` configuration to remove the `zones` parameter while maintaining the `Standard` load balancer SKU for production features.
+* **Resolution:** Modified the Terraform `location` configuration to `east us2` on the VNet and the AKS for production features.
 
 ### 🛑 Challenge 3: Network CIDR Overlap
 
@@ -100,13 +100,6 @@ The solution follows a layered cloud-native architecture:
 2. Performed a `git reset` to unstage the large file.
 3. Re-initialized the repository history to ensure a clean push.
 
-
-
-### 🛑 Challenge 5: Docker Build Failure (Alpine Linux)
-
-* **Issue:** The CI pipeline failed with `exit code: 127` because the `node:18-alpine` image does not support `apt install` (it uses `apk`).
-* **Resolution:** Corrected the `Dockerfile` to use `npm install --production` for dependency management, aligning with Node.js best practices.
-
 ---
 
 ## 5. Project Structure
@@ -116,7 +109,7 @@ Hospital-Application/
 ├── .github/workflows/   # CI Pipelines (GitHub Actions)
 ├── infrastructure/      # Terraform IaC (main.tf)
 ├── kubernetes/          # Helm Charts & Manifests
-│   └── recruitment-app/ # Application Chart
+│   └── hospital-app/ # Application Chart
 ├── backend/             # Node.js Source Code
 ├── public/              # Frontend Assets
 ├── Dockerfile           # Container Definition
