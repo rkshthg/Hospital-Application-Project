@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: recruitment-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce # Only one node can write to this at a time
+  resources:
+    requests:
+      storage: 1Gi
+  # This uses the default StorageClass we provisioned in Azure (Step 1)
+  storageClassName: default

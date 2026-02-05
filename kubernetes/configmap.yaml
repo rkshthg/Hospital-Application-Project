@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: recruitment-config
+data:
+  # Application Settings
+  NODE_ENV: "production"
+  PORT: "3000"
+  # Service Discovery via Internal DNS [cite: 57]
+  # Using the service name allows connection without hardcoded IPs
+  DATABASE_HOST: "mongo-service"
