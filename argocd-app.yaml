@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hospital-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # UPDATE THIS to your actual GitHub URL
+    repoURL: https://github.com/rkshthg/Hospital-Application-Project.git
+    targetRevision: main
+    # Tell Argo where the Helm chart lives
+    path: kubernetes/hospital-app
+    
+    # Allow Argo to override values if needed
+    helm:
+      valueFiles:
+        - values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    # Deploy the app into the 'default' namespace (or create a new one like 'prod')
+    namespace: default
+
+  # Sync Policy (The "Magic" Part) [cite: 86]
+  syncPolicy:
+    automated:
+      prune: true    # Deletes resources if you delete them from Git
+      selfHeal: true # Re-applies resources if someone manually deletes them in the cluster
