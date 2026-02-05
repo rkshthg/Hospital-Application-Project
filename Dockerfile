@@ -1,22 +1,24 @@
-# 1. Use a lightweight, production-ready base image
+# 1. Use Node Image
 FROM node:18-alpine
 
-# 2. Set the working directory inside the container
+# 2. Set working directory
 WORKDIR /app
 
-# 3. Copy package definitions first
-# This allows Docker to cache dependencies if package.json hasn't changed
-COPY package*.json ./
+# 3. Copy package.json from the BACKEND folder
+#    (Source: backend/package.json -> Dest: ./package.json)
+COPY backend/package.json backend/package-lock.json ./
 
-# 4. Install dependencies
-RUN apt install --production
+# 4. Install dependencies (Using NPM, not APT)
+RUN npm install --production
 
-# 5. Copy the rest of the application code
-COPY . .
+# 5. Copy the backend code
+COPY backend ./backend
 
-# 6. Expose the application port (Standard for Node apps is often 3000 or 8080)
+# 6. Copy the public assets
+COPY public ./public
+
+# 7. Expose Port
 EXPOSE 3000
 
-# 7. Define the command to run your app
-# Adjust "backend/server.js" if your entry file has a different name
-CMD ["node", "backend/server.js"]
+# 8. Start the app
+CMD ["node", "backend/app.js"]
