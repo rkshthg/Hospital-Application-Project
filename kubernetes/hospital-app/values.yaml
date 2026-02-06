@@ -4,7 +4,7 @@ replicaCount: 3
 # Container Image Config
 image:
   repository: acrhospitalprod01.azurecr.io/hospital-app
-  tag: "latest" # We will override this in CI/CD later
+  tag: "latest" 
   pullPolicy: IfNotPresent
 
 # Networking
@@ -18,8 +18,7 @@ appConfig:
   nodeEnv: "production"
   dbHost: "mongo-service"
 
-# Secrets (In real life, use KeyVault. For this lab, we inject base64 here)
-# echo -n "password" | base64
+# Secrets 
 secrets:
   dbPassword: "cGFzc3dvcmQ="
   apiKey: "bXlfc3VwZXJfc2VjcmV0X2tleQ=="

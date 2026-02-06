@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: mongo
-        image: mongo:5.0 # Using a stable version
+        image: mongo:5.0
         ports:
         - containerPort: 27017
         env:
@@ -33,7 +33,7 @@ spec:
       
       volumes:
       - name: mongo-storage
-        emptyDir: {} # For a Lab, ephemeral storage is fine. For Prod, use PVC.
+        emptyDir: {}
 
 ---
 apiVersion: v1

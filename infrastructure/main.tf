@@ -35,10 +35,10 @@ resource "azurerm_subnet" "aks_subnet" {
 
 # 3. Azure Container Registry (ACR)
 resource "azurerm_container_registry" "acr" {
-  name                = "acrhospitalprod01" # Must be globally unique
+  name                = "acrhospitalprod01"
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
-  sku                 = "Standard" # Production-ready SKU
+  sku                 = "Standard" 
   admin_enabled       = false
 }
 
@@ -84,7 +84,7 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
   skip_service_principal_aad_check = true
 }
 
-# Supporting Resource: Log Analytics (For Observability)
+# Supporting Resource: Log Analytics
 resource "azurerm_log_analytics_workspace" "logs" {
   name                = "law-hospital-prod-01"
   location            = data.azurerm_resource_group.rg.location
